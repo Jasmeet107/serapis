@@ -1,0 +1,14 @@
+# Facebook app credentials
+app_id = "xxxxxxxxxxxxxxx"
+app_secret = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# confessions pages to scrape from
+# slug:facebook_page_id
+pages = {
+    'stanford': '372644179500230',
+    'mit': 'beaverconfessions',
+    'brown': 'BrownUConfessions',
+    'bu': 'BUconfessions',
+    'rhodes': '418059621625397',
+    'madison': 'MadisonConfessions'
+}
