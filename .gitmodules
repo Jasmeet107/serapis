@@ -1,0 +1,3 @@
+[submodule "treelstm"]
+	path = treelstm
+	url = https://github.com/Jasmeet107/treelstm.git
