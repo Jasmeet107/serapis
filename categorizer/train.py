@@ -33,6 +33,9 @@ word_dist = FreqDist()
 for (words, categories) in corpus:
     for word in words: word_dist[word] += 1
 word_features = list(word_dist)[:2000]
+features_file = open("classifiers/features.pickle", "wb")
+pickle.dump(word_features, features_file)
+features_file.close()
 
 # extract features
 def features(words):
