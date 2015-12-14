@@ -16,8 +16,8 @@ class SentimentPredictor():
         self.predictions = []
 
         # files to write output
-        self.parents_file = open("parents.txt", "wb")
-        self.sents_file = open("sents.txt", "wb")
+        self.parents_file = open("sentiment/parents.txt", "wb")
+        self.sents_file = open("sentiment/sents.txt", "wb")
 
     def add_tree(self, datum):
         # parse tree and binarize
@@ -51,8 +51,9 @@ class SentimentPredictor():
         return len(self.trees) - 1 # ID
 
     def add_confession(self, confession):
-        # store line numbers
+        # store line numbers and sentences
         confession["tree_ids"] = []
+        confession["raw_sentences"] = []
 
         # analyze each sentence seperately
         for raw_tree in confession["trees"]:
@@ -60,6 +61,7 @@ class SentimentPredictor():
             confession["tree_ids"].append(self.add_tree({
                 "raw_tree": raw_tree
             }))
+            confession["raw_sentences"].append(Tree.fromstring(raw_tree).leaves())
 
         # store confession
         self.confessions.append(confession)
@@ -70,10 +72,10 @@ class SentimentPredictor():
         self.sents_file.close()
 
         # run lua cli script
-        subprocess.call(["th", "run.lua"], cwd="../treelstm")
+        subprocess.call(["th", "run.lua"], cwd="treelstm")
 
         # open predictions, and assign to confessions
-        with open("predictions.txt", "rb") as predictions_file:
+        with open("sentiment/predictions.txt", "rb") as predictions_file:
             # 1 = negative prob, 2 = neutral prob, 3 = positive prob
             self.predictions = []
             self.expected_values = []
@@ -88,7 +90,14 @@ class SentimentPredictor():
 
         for i, confession in enumerate(self.confessions):
             confession["sentiments"] = [self.predictions[tree_id] for tree_id in confession["tree_ids"]]
-            confession["sentiment"] = sum(confession["sentiments"])*len(confession["sentiments"])
+            total_length = 0
+            total_sentiment = 0
+            for sentiment, sentence in zip(confession["sentiments"], confession["raw_sentences"]):
+                total_sentiment += len(sentence)*sentiment
+                total_length += len(sentence)
+            confession["sentiment"] = total_sentiment * 1.0 / total_length
+
+            # confession["sentiment"] = sum(confession["sentiments"])*len(confession["sentiments"])
             self.confessions[i] = confession
 
 if __name__ == "__main__":
