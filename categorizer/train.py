@@ -74,6 +74,7 @@ for (word, categories) in corpus:
 
 # train classifier for each category
 f1_scores = []
+accuracies = []
 for category in all_categories:
     # label words
     def labelize(present):
@@ -125,6 +126,7 @@ for category in all_categories:
     reference_values = [label for (feat, label) in test_set]
     pos_ref_set = set(i for i, (feat, label) in enumerate(test_set) if label == category)
     accuracy = scores.accuracy(reference_values, test_results)
+    accuracies.append(accuracy)
     precision = scores.precision(pos_ref_set, pos_test_set)
     recall = scores.recall(pos_ref_set, pos_test_set)
     f1 = scores.f_measure(pos_ref_set, pos_test_set)
@@ -143,4 +145,5 @@ for category in all_categories:
     }, dump_file)
     dump_file.close()
 
+print "Average accuracy: %s" % colored(sum(accuracies)*1.0/len(accuracies), "red")
 print "Average F1 score: %s" % colored(sum(f1_scores)*1.0/len(f1_scores), "red")

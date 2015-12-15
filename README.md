@@ -6,10 +6,10 @@ For documentation on running each part of the pipeline, see the `README.md` file
 
 1. Scraping (`scraper`): downloads raw confessions data from Facebook
 2. Parsing (`parser`): parse each confession into a syntactic tree
-3. Tagging (`tagging`): use [Mechanical Turk](https://www.mturk.com/mturk/welcome) to create a tagged (by sentiment and topic) training dataset
-4. Training (`training`): use classified learning to train a model to predict sentiment and topic
-5. Evaluation (`evaluation`): run the trained model on all confessions in the corpus to predict sentiment and topic
-6. Analysis (`analysis`): perform various statistical analyses across the evaluated dataset
+3. Sentiment (`sentiment`, `treelstm`) predicts sentiment from parse trees
+4. Categorization (`categorizer`) categorizes text into one of 9 categories
+5. Analyzer (`analyzer`) runs the sentiment predictor and categorizer on all confessions
+6. Results (`results`) aggregates statistics
 
 ## Setup
 The following instructions should generalize to most Unix-like operating systems, but here were performed on Ubuntu Server 14.04 running on an Amazon EC2 `c4.large` instance.

@@ -7,7 +7,7 @@ from nltk.stem import SnowballStemmer
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from progressbar import ProgressBar
-from predict import SentimentPredictor
+from sentiment.predict import SentimentPredictor
 import subprocess, nltk, pickle
 import csv
 
@@ -18,7 +18,7 @@ db = client.confessions
 # read in mturk tagged sentences
 num_sentences = 10
 sentences = {}
-with open("testing/data/sentences_tagged.csv", "rb") as resultsfile:
+with open("sentiment/testing/data/sentences_tagged.csv", "rb") as resultsfile:
     for row in csv.DictReader(resultsfile):
         for i in range(1, num_sentences+1):
             parse_id = row["Input.confessionid_%d" % i]
@@ -36,7 +36,7 @@ with open("testing/data/sentences_tagged.csv", "rb") as resultsfile:
 # read in mturk tagged confessions
 num_sentences = 10
 confessions = {}
-with open("testing/data/confessions_tagged.csv", "rb") as resultsfile:
+with open("sentiment/testing/data/confessions_tagged.csv", "rb") as resultsfile:
     for row in csv.DictReader(resultsfile):
         for i in range(1, num_sentences+1):
             confession_id = row["Input.id_%d" % i]

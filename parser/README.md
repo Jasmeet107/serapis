@@ -40,4 +40,4 @@ Run
 
     python parse.py
 
-Parsing all confessions in the corpus will take a long time, but the parser can be stopped and started at will without reparsing any confessions (to cause a confession to be reparsed, increment `PARSER_VERSION` at the top of `parse.py`).
+Parsing all confessions in the corpus will take a long time, but the parser can be stopped and started at will without reparsing any confessions (to cause a confession to be reparsed, increment `PARSER_VERSION` at the top of `parse.py`). Run `run.sh` to repeatedly run `parse.py` until all confessions are parsed (`parse.py` may be killed by the kernel due to excessive memory consujmption).
